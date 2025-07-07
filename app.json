@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "Submerge",
+    "slug": "Submerge",
+    "owner": "vijaykethan",
+    "version": "1.0.0",
+    "scheme": "myapp",
+    "plugins": [
+      [
+      "expo-audio"
+    ]
+  ],
+    "android": {
+      "permissions": [
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
+    }
+  }
+}
