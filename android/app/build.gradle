@@ -1,8 +1,14 @@
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
+apply plugin: "com.google.gms.google-services"
 
-apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
+def dotenvGradle = new File(rootProject.projectDir, "../node_modules/react-native-config/android/dotenv.gradle")
+if (dotenvGradle.exists()) {
+    apply from: dotenvGradle
+}
+
 
 
 def projectRoot = rootDir.getAbsoluteFile().getParentFile().getAbsolutePath()
@@ -98,6 +104,12 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++17"  // ← Force C++17 instead of C++20
+                arguments "-DANDROID_STL=c++_shared"
+            }
+        }
     }
     signingConfigs {
         debug {
@@ -151,9 +163,14 @@ android {
     }
 }
 
+
+
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+    implementation platform('com.google.firebase:firebase-bom:34.0.0')
+    implementation 'com.google.firebase:firebase-analytics'
+
 
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
     def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true";

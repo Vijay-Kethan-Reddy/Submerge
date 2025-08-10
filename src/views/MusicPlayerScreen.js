@@ -1,69 +1,93 @@
+import React from 'react';
+import { View, Text, ScrollView, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import MusicPlayer from '../components/MusicPlayer';
 
-import React, { useEffect, useState } from 'react';
-import { View, Text, Button, Alert, StyleSheet } from 'react-native';
-import { spotifyAuth } from '../config/spotifyAuth'; // adjust the path
-import { CLIENT_ID } from '../config/spotifyAuth'; // put your CLIENT_ID there
-
-export default function MusicPlayerScreen() {
-  const { request, response, promptAsync, redirectUri } = spotifyAuth();
-  const [accessToken, setAccessToken] = useState(null);
-
-  useEffect(() => {
-    const fetchToken = async () => {
-      if (response?.type === 'success' && response.params.code) {
-        try {
-          const res = await fetch('https://accounts.spotify.com/api/token', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams({
-              client_id: CLIENT_ID,
-              grant_type: 'authorization_code',
-              code: response.params.code,
-              redirect_uri: redirectUri,
-              code_verifier: request.codeVerifier,
-            }).toString(),
-          });
-
-          const tokenResponse = await res.json();
-
-          if (tokenResponse.access_token) {
-            setAccessToken(tokenResponse.access_token);
-            Alert.alert('✅ Success', 'Spotify Login Successful');
-            console.log('🎧 Spotify access token:', tokenResponse.access_token);
-          } else {
-            Alert.alert('❌ Token Error', JSON.stringify(tokenResponse));
-          }
-        } catch (err) {
-          Alert.alert('❌ Fetch Error', err.message);
-        }
-      }
-    };
-
-    fetchToken();
-  }, [response]);
+export default function MusicScreen({ navigation, route }) {
+  const insets = useSafeAreaInsets();
+  const track = route?.params?.track;
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Music Player</Text>
+      <StatusBar backgroundColor="#00A6CB" barStyle="light-content" />
 
-      <Button
-        title={accessToken ? 'Logged In to Spotify' : 'Login with Spotify'}
-        onPress={() => promptAsync({ useProxy: true })}
-        disabled={!request}
-      />
+      {/* Top Bar */}
+      <View style={[styles.topBarBackground, { paddingTop: insets.top }]}>
+        <View style={styles.topBarContent}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.iconButton}>
+            <Icon name="arrow-back" size={26} color="white" />
+          </TouchableOpacity>
 
-      {accessToken && (
-        <View style={{ marginTop: 20 }}>
-          <Text>🎵 Ready to control Spotify playback!</Text>
+          <Text style={styles.appTitle}>SUBMERGE</Text>
+
+          <View style={styles.leftSpace} />
         </View>
-      )}
+      </View>
+
+      {/* Music Player or Placeholder */}
+      <ScrollView style={styles.contentContainer}>
+        {track ? (
+          <MusicPlayer track={track} />
+        ) : (
+          <View style={styles.noTrackContainer}>
+            <Text style={styles.noTrackText}>No track selected</Text>
+          </View>
+        )}
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
+  container: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+  },
+  topBarBackground: {
+    backgroundColor: '#00A6CB',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  topBarContent: {
+    height: 60,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+  },
+  iconButton: {
+    width: 44,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 22,
+  },
+  leftSpace: {
+    width: 44,
+  },
+  appTitle: {
+    fontFamily: 'Poppins-Bold',
+    fontSize: 26,
+    fontWeight: '600',
+    color: 'white',
+    letterSpacing: 1,
+    textAlign: 'center',
+    flex: 1,
+  },
+  contentContainer: {
+    flex: 1,
+    padding: 16,
+  },
+  noTrackContainer: {
+    marginTop: 60,
+    alignItems: 'center',
+  },
+  noTrackText: {
+    fontSize: 18,
+    color: '#888',
+  },
 });

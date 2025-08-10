@@ -7,13 +7,26 @@
     "scheme": "myapp",
     "plugins": [
       [
-      "expo-audio"
-    ]
-  ],
+        "expo-audio"
+      ],
+      "expo-font",
+      "expo-video",
+      "expo-build-properties"
+    ],
     "android": {
+      "compileSdkVersion": 35,
+      "minSdkVersion": 24,
+      "targetSdkVersion": 34,
+      "buildToolsVersion": "35.0.0",
       "permissions": [
-        "android.permission.MODIFY_AUDIO_SETTINGS"
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.RECORD_AUDIO"
       ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f860aa61-cb95-4c15-b39d-5cd0b4018044"
+      }
     }
   }
 }

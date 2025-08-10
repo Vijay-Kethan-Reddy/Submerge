@@ -1,0 +1,20 @@
+[versions]
+kotlin = "1.8.21"
+gradle = "8.0.2"
+googleServices = "4.4.3"
+androidxCore = "1.10.1"
+appCompat = "1.6.1"
+material = "1.9.0"
+
+[libraries]
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+
+[plugins]
+android = { id = "com.android.application", version.ref = "gradle" }
+kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
