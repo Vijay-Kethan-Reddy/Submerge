@@ -52,3 +52,4 @@ ios/build/
 # Temporary files
 *.tmp
 *.temp 
+"firebaseConfig.js" 
