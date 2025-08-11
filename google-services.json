@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "32819840112",
+    "project_id": "submerge-music",
+    "storage_bucket": "submerge-music.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32819840112:android:71da83e1abff4e7395e0b5",
+        "android_client_info": {
+          "package_name": "com.submerge"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWeIDldtd1yVypyvmUhXahHPJCtE4rdU4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

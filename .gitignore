@@ -53,3 +53,11 @@ ios/build/
 *.tmp
 *.temp 
 "firebaseConfig.js" 
+"app.json"
+"google-services.json"
+"babel.config.js"
+"bfg-1.15.0.jar"
+"eas.json"
+"metro.config.js"
+"package-lock.json"
+"package.json"
